@@ -63,7 +63,7 @@ public class EnquiryDetails {
 	private LocalDate updatedDate;
 
 	@Enumerated(EnumType.STRING)
-	private EnquiryStatus EnquiryStatus;
+	private EnquiryStatus enquiryStatus;
 	
 	@Column(name = "Is_Present")
 	private Boolean isPresent;
