@@ -61,6 +61,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 		return null;
 	}
 	
+	@Override
 	public GetEnquiryResponseDTO getEnquiryById(Integer enquiryId)
 	{
 		if(enquiryRepository.findById(enquiryId).isPresent())
@@ -75,6 +76,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 		}
 	}
 	
+	@Override
 	public String softdeleteEnquiry(Integer enquiryId)
 	{
 		EnquiryDetails  getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
