@@ -8,13 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionalHandler 
-{
-	@ExceptionHandler(NullPointerException.class)
-	public ResponseEntity<String> handleNullPointerExceptionHandler(NullPointerException e)
-	{
-		return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
+{	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex)
 	{

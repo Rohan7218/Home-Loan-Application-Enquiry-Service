@@ -8,5 +8,5 @@ import com.example.enquiry.entity.CibilDetails;
 @Repository
 public interface CibilRepository extends JpaRepository<CibilDetails,Integer>
 {
-	
+	CibilDetails findByEnquiryId(Integer enquiryId);
 }
