@@ -88,7 +88,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 				return "!!!!....Record Deleted SuccessFully....!!!!";
 		}
 		return "!!!!....For Given Enquiry Id User Is Not Found....!!!!";
-<<<<<<< HEAD
+
 	}
 	public String softdeleteEnquiry(Integer enquiryId) {
 		EnquiryDetails getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
@@ -99,8 +99,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 		}
 		return "FOR GIVEN ENQUIRY ID USER IS NOT FOUND " + enquiryId;
 
-=======
->>>>>>> f0b65aa25fc6a66f0b0641c8e71b3b328ac47dfa
+
 	}
 
 	@Override
