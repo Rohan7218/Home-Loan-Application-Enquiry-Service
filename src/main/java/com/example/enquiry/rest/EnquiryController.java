@@ -96,7 +96,13 @@ public class EnquiryController
 		}
 	}
 	
-
 	
+	@PutMapping(value = "/edit-enquiry/{enquiryId}")
+	public ResponseEntity<String> updateEnquiry(@RequestBody @Valid EnquiryDTO enquiryDTO,@PathVariable Integer enquiryId)
+	{
+			String msg=enquiryService.updateEnquiry(enquiryDTO,enquiryId);
+				return new ResponseEntity<String>(msg, HttpStatus.OK);
+	}
+
 	
 }
