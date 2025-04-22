@@ -99,7 +99,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 		 }
 		 else
 		 {
-			 throw new NoEnquiriesFoundException("No Enquiries Are Available");
+			 throw new NoEnquiriesFoundException("!!!!....No Enquiries Are Available....!!!!");
 		 }
 	}
 	
