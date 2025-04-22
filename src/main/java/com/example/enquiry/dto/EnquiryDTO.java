@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 
 public class EnquiryDTO 
 {
+		
 	@NotNull
 	@NotEmpty
 	@NotBlank(message = "Firstname is required")

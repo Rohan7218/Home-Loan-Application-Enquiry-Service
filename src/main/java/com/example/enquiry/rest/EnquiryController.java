@@ -103,5 +103,6 @@ public class EnquiryController
 			String msg=enquiryService.updateEnquiry(enquiryDTO,enquiryId);
 				return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
+
 	
 }
