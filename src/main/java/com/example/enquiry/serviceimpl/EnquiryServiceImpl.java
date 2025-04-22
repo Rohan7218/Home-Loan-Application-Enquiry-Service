@@ -95,7 +95,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 				return "!!!!....Record Deleted SuccessFully....!!!!";
 		}
 		return "!!!!....For Given Enquiry Id User Is Not Found....!!!!";
-
+	}
 	public String softdeleteEnquiry(Integer enquiryId) {
 		EnquiryDetails getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
 		if (getEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED)) {
