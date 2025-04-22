@@ -42,7 +42,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 		enquiryRepository.save(enquiryDetails);
 		cibilDetails.setEnquiryId(enquiryDetails.getEnquiryId());
 		enquiryRepository.save(enquiryDetails);
-		return "!!!!...Enquiry Registered SuccessFully....!!!!";
+		return "!!!!....Enquiry Registered SuccessFully....!!!!";
 	}
 
 	@Override
@@ -59,6 +59,19 @@ public class EnquiryServiceImpl implements EnquiryService {
 	}
 
 	@Override
+
+	public GetEnquiryResponseDTO getEnquiryById(Integer enquiryId)
+	{
+		if(enquiryRepository.findById(enquiryId).isPresent())
+		{
+				EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
+				GetEnquiryResponseDTO responseDTO = modelMapper.map(enquiryDetails, GetEnquiryResponseDTO.class);
+				return responseDTO;
+		}
+		else
+		{
+			throw new NoEnquiryFoundException("!!!!....For Given Enquiry Id Record Not Found....!!!!");
+
 	public GetEnquiryResponseDTO getEnquiryById(Integer enquiryId) {
 		if (enquiryRepository.findById(enquiryId).isPresent()) {
 			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
@@ -66,10 +79,23 @@ public class EnquiryServiceImpl implements EnquiryService {
 			return responseDTO;
 		} else {
 			throw new NoEnquiryFoundException("For Given Enquiry Id Record Not Found");
+
 		}
 	}
 
 	@Override
+
+	public String softDeleteEnquiry(Integer enquiryId)
+	{
+		EnquiryDetails  getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
+		if(getEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED))
+		{
+				getEnquiryDetails.setIsPresent(false);
+				enquiryRepository.save(getEnquiryDetails);
+				return "!!!!....Record Deleted SuccessFully....!!!!";
+		}
+		return "!!!!....For Given Enquiry Id User Is Not Found....!!!!";
+
 	public String softdeleteEnquiry(Integer enquiryId) {
 		EnquiryDetails getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
 		if (getEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED)) {
@@ -78,15 +104,27 @@ public class EnquiryServiceImpl implements EnquiryService {
 			return "RECORD DELETED SUCCESFULLY ";
 		}
 		return "FOR GIVEN ENQUIRY ID USER IS NOT FOUND " + enquiryId;
+
 	}
 
 	@Override
 	public List<EnquiryDetails> getAllEnquiries() {
 		List<EnquiryDetails> enquiryList = enquiryRepository.findAllByIsPresent(true);
+
+		 if(!enquiryList.isEmpty())
+		 {
+			 return enquiryList; 
+		 }
+		 else
+		 {
+			 throw new NoEnquiriesFoundException("!!!!....No Enquiries Are Available....!!!!");
+		 }
+
 		if (!enquiryList.isEmpty()) {
 			return enquiryList;
 		}
 		throw new NoEnquiriesFoundException("No Enquiries Are Available");
+
 	}
 
 	@Override
