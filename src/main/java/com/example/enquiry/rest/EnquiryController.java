@@ -37,41 +37,51 @@ public class EnquiryController
 	public ResponseEntity<String> registerEnquiry(@RequestBody @Valid EnquiryDTO enquiryDTO)
 	{
 		String msg=enquiryService.registerEnquiry(enquiryDTO);
-		return new ResponseEntity<String>(msg, HttpStatus.CREATED);
+		
+		return new ResponseEntity<String>(msg,HttpStatus.CREATED);
 	}
 	
 	@PatchMapping(value = "/{enquiryId}")
 	public ResponseEntity<String> updateEnquiryStatus(@RequestBody EnquiryStatusDTO enquiryStatusDTO, @PathVariable Integer enquiryId)
 	{
 		String msg=enquiryService.updateEnquiryStatus(enquiryStatusDTO, enquiryId);
+		if(msg!=null)
+		{
+			return new ResponseEntity<String>(msg, HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
 		
-		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{enquiryId}")
 	public ResponseEntity<GetEnquiryResponseDTO> getEnquiryById(@PathVariable Integer enquiryId)
 	{
 		GetEnquiryResponseDTO getEnquiryResponseDTO=enquiryService.getEnquiryById(enquiryId);
-		return new ResponseEntity<GetEnquiryResponseDTO>(getEnquiryResponseDTO, HttpStatus.OK);
+		return new ResponseEntity<GetEnquiryResponseDTO>(getEnquiryResponseDTO, HttpStatus.OK);	
 	}
 	
 	@DeleteMapping(value = "/{enquiryId}")
-	public ResponseEntity<String> DeleteEnquiry(@PathVariable Integer enquiryId)
+	public ResponseEntity<String> softDeleteEnquiry(@PathVariable Integer enquiryId)
 	{
-		String msg=enquiryService.softdeleteEnquiry(enquiryId);
+		String msg=enquiryService.softDeleteEnquiry(enquiryId);
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/")
 	public ResponseEntity<List<EnquiryDetails>>  getAllEnquiries()
 	{
-				
 			List<EnquiryDetails> enquiries =	enquiryService.getAllEnquiries();
 			if(enquiries!= null) 
 			{
 				return new ResponseEntity<List<EnquiryDetails>>(enquiries, HttpStatus.OK);
 			}
-			return new ResponseEntity<List<EnquiryDetails>>(enquiries, HttpStatus.NO_CONTENT);
+			else
+			{
+				return new ResponseEntity<List<EnquiryDetails>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 	}
 		
 	@GetMapping(value = "/status/{enquiryStatus}")

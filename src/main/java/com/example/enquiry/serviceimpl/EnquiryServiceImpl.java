@@ -43,7 +43,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 		enquiryRepository.save(enquiryDetails);
 		cibilDetails.setEnquiryId(enquiryDetails.getEnquiryId());
 		enquiryRepository.save(enquiryDetails);
-		return "!!!!...Enquiry Registered SuccessFully....!!!!";
+		return "!!!!....Enquiry Registered SuccessFully....!!!!";
 	}
 	
 	@Override
@@ -72,21 +72,21 @@ public class EnquiryServiceImpl implements EnquiryService {
 		}
 		else
 		{
-			throw new NoEnquiryFoundException("For Given Enquiry Id Record Not Found");
+			throw new NoEnquiryFoundException("!!!!....For Given Enquiry Id Record Not Found....!!!!");
 		}
 	}
 	
 	@Override
-	public String softdeleteEnquiry(Integer enquiryId)
+	public String softDeleteEnquiry(Integer enquiryId)
 	{
 		EnquiryDetails  getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
 		if(getEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED))
 		{
 				getEnquiryDetails.setIsPresent(false);
 				enquiryRepository.save(getEnquiryDetails);
-				return "RECORD DELETED SUCCESFULLY ";
+				return "!!!!....Record Deleted SuccessFully....!!!!";
 		}
-		return "FOR GIVEN ENQUIRY ID USER IS NOT FOUND "+enquiryId;
+		return "!!!!....For Given Enquiry Id User Is Not Found....!!!!";
 	}
 	
 	@Override
@@ -97,7 +97,10 @@ public class EnquiryServiceImpl implements EnquiryService {
 		 {
 			 return enquiryList; 
 		 }
-		 throw new NoEnquiriesFoundException("No Enquiries Are Available");
+		 else
+		 {
+			 throw new NoEnquiriesFoundException("!!!!....No Enquiries Are Available....!!!!");
+		 }
 	}
 	
 	@Override

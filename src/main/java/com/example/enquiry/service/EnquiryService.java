@@ -17,7 +17,7 @@ public interface EnquiryService
 
 	GetEnquiryResponseDTO getEnquiryById(Integer enquiryId);
 
-	String softdeleteEnquiry(Integer enquiryId);
+	String softDeleteEnquiry(Integer enquiryId);
 
 	List<EnquiryDetails> getAllEnquiries();
 
