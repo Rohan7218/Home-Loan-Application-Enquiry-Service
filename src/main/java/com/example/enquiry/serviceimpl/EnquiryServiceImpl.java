@@ -26,85 +26,74 @@ public class EnquiryServiceImpl implements EnquiryService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public String registerEnquiry(EnquiryDTO enquiryDTO) 
-	{
+	public String registerEnquiry(EnquiryDTO enquiryDTO) {
 		CibilDetails cibilDetails = new CibilDetails();
-							cibilDetails.setCibilEligibility("Inprocess");
-							cibilDetails.setCibilRemark("Inprocess");
-							cibilDetails.setCibilScore(0);
-							cibilDetails.setPanCardNo(enquiryDTO.getPanCardNo());
+		cibilDetails.setCibilEligibility("Inprocess");
+		cibilDetails.setCibilRemark("Inprocess");
+		cibilDetails.setCibilScore(0);
+		cibilDetails.setPanCardNo(enquiryDTO.getPanCardNo());
 
 		EnquiryDetails enquiryDetails = modelMapper.map(enquiryDTO, EnquiryDetails.class);
-								enquiryDetails.setContactNo(Long.valueOf(enquiryDTO.getContactNo()));
-								enquiryDetails.setEnquiryStatus(EnquiryStatus.REGISTERED);
-								enquiryDetails.setCibilId(cibilDetails);
-								enquiryDetails.setIsPresent(true);
+		enquiryDetails.setContactNo(Long.valueOf(enquiryDTO.getContactNo()));
+		enquiryDetails.setEnquiryStatus(EnquiryStatus.REGISTERED);
+		enquiryDetails.setCibilId(cibilDetails);
+		enquiryDetails.setIsPresent(true);
 
 		enquiryRepository.save(enquiryDetails);
 		cibilDetails.setEnquiryId(enquiryDetails.getEnquiryId());
 		enquiryRepository.save(enquiryDetails);
 		return "!!!!...Enquiry Registered SuccessFully....!!!!";
 	}
-	
+
 	@Override
-	public String updateEnquiryStatus(EnquiryStatusDTO enquiryStatusDTO, Integer enquiryId)
-	{
-		if(enquiryRepository.findById(enquiryId).isPresent())
-		{
+	public String updateEnquiryStatus(EnquiryStatusDTO enquiryStatusDTO, Integer enquiryId) {
+		if (enquiryRepository.findById(enquiryId).isPresent()) {
 			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
-								   enquiryDetails.setEnquiryStatus(enquiryStatusDTO.getEnquiryStatus());
-		
+			enquiryDetails.setEnquiryStatus(enquiryStatusDTO.getEnquiryStatus());
+
 			enquiryRepository.save(enquiryDetails);
 			return "!!!!....Enquiry Status Updated SuccessFully....!!!!";
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
-	public GetEnquiryResponseDTO getEnquiryById(Integer enquiryId)
-	{
-		if(enquiryRepository.findById(enquiryId).isPresent())
-		{
-				EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
-				GetEnquiryResponseDTO responseDTO = modelMapper.map(enquiryDetails, GetEnquiryResponseDTO.class);
-				return responseDTO;
-		}
-		else
-		{
+	public GetEnquiryResponseDTO getEnquiryById(Integer enquiryId) {
+		if (enquiryRepository.findById(enquiryId).isPresent()) {
+			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
+			GetEnquiryResponseDTO responseDTO = modelMapper.map(enquiryDetails, GetEnquiryResponseDTO.class);
+			return responseDTO;
+		} else {
 			throw new NoEnquiryFoundException("For Given Enquiry Id Record Not Found");
 		}
 	}
-	
+
 	@Override
-	public String softdeleteEnquiry(Integer enquiryId)
-	{
-		EnquiryDetails  getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
-		if(getEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED))
-		{
-				getEnquiryDetails.setIsPresent(false);
-				enquiryRepository.save(getEnquiryDetails);
-				return "RECORD DELETED SUCCESFULLY ";
+	public String softdeleteEnquiry(Integer enquiryId) {
+		EnquiryDetails getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
+		if (getEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED)) {
+			getEnquiryDetails.setIsPresent(false);
+			enquiryRepository.save(getEnquiryDetails);
+			return "RECORD DELETED SUCCESFULLY ";
 		}
-		return "FOR GIVEN ENQUIRY ID USER IS NOT FOUND "+enquiryId;
+		return "FOR GIVEN ENQUIRY ID USER IS NOT FOUND " + enquiryId;
 	}
-	
+
 	@Override
-	public List<EnquiryDetails> getAllEnquiries() 
-	{
+	public List<EnquiryDetails> getAllEnquiries() {
 		List<EnquiryDetails> enquiryList = enquiryRepository.findAllByIsPresent(true);
-		 if(!enquiryList.isEmpty())
-		 {
-			 return enquiryList; 
-		 }
-		 throw new NoEnquiriesFoundException("No Enquiries Are Available");
+		if (!enquiryList.isEmpty()) {
+			return enquiryList;
+		}
+		throw new NoEnquiriesFoundException("No Enquiries Are Available");
 	}
-	
+
 	@Override
-	public List<EnquiryDetails> getEnquiryByStatus(EnquiryStatus enquiryStatus) 
-	{
+	public List<EnquiryDetails> getEnquiryByStatus(EnquiryStatus enquiryStatus) {
 		List<EnquiryDetails> enquiryList = enquiryRepository.findAllByEnquiryStatus(enquiryStatus);
 		return enquiryList;
 	}
+
 
 }
