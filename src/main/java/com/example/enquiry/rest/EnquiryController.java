@@ -7,14 +7,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
-=======
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
->>>>>>> c7a9da11cc40e7941529037f6c1e7c4ded11dfae
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -96,6 +94,14 @@ public class EnquiryController
 		{
 			return new ResponseEntity<List<EnquiryDetails>>(HttpStatus.NO_CONTENT);
 		}
+	}
+	
+	
+	@PutMapping(value = "/edit-enquiry/{enquiryId}")
+	public ResponseEntity<String> updateEnquiry(@RequestBody @Valid EnquiryDTO enquiryDTO,@PathVariable Integer enquiryId)
+	{
+			String msg=enquiryService.updateEnquiry(enquiryDTO,enquiryId);
+				return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
 	
 }

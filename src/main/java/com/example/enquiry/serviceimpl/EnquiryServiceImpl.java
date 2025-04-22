@@ -1,6 +1,9 @@
 package com.example.enquiry.serviceimpl;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,5 +112,46 @@ public class EnquiryServiceImpl implements EnquiryService {
 		List<EnquiryDetails> enquiryList = enquiryRepository.findAllByEnquiryStatus(enquiryStatus);
 		return enquiryList;
 	}
+	
+	
+	@Override
+	public String updateEnquiry(@Valid EnquiryDTO enquiryDTO, Integer enquiryId) {
+		
+		Optional<EnquiryDetails> optional = enquiryRepository.findById(enquiryId);
+		if (optional.isPresent()) {
+			EnquiryDetails getEnquiryDetails = optional.get();
+			
+			if(enquiryDTO.getFirstName()!=null)
+			{
+				getEnquiryDetails.setFirstName(enquiryDTO.getFirstName());
+			}
+			if(enquiryDTO.getLastName()!=null)
+			{
+				getEnquiryDetails.setLastName(enquiryDTO.getLastName());
+			}
+			if(enquiryDTO.getCityName()!=null)
+			{
+				getEnquiryDetails.setCityName(enquiryDTO.getCityName());
+			}
+			if(enquiryDTO.getPanCardNo()!=null)
+			{
+				getEnquiryDetails.setPanCardNo(enquiryDTO.getPanCardNo());
+			}
+
+			enquiryRepository.save(getEnquiryDetails);
+			return "Enquiry Details Updated Succesfully";
+		}
+
+		else {
+			registerEnquiry(enquiryDTO);
+			return "Enquiry Id Record Not Found ..New Record Inserted";
+		}
+		
+	}
+	
+	
+	
+	
+	
 
 }
