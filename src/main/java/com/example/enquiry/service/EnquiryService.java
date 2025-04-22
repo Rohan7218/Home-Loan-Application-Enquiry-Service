@@ -2,6 +2,8 @@ package com.example.enquiry.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.enquiry.dto.EnquiryDTO;
 import com.example.enquiry.dto.EnquiryStatus;
 import com.example.enquiry.dto.EnquiryStatusDTO;
@@ -22,6 +24,12 @@ public interface EnquiryService
 	List<EnquiryDetails> getAllEnquiries();
 
 	List<EnquiryDetails> getEnquiryByStatus(EnquiryStatus enquiryStatus);
+
+	String updateEnquiry(@Valid EnquiryDTO enquiryDTO, Integer enquiryId);
+
+
+
+
 
 
 
