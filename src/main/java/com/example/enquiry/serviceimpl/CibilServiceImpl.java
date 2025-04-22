@@ -43,4 +43,33 @@ public class CibilServiceImpl implements CibilService {
 
 	}
 	
+	@Override
+	public String updateCibilDetails(Integer enquiryId, CibilDTO cibilDTO) 
+	{
+		if(enquiryRepository.findById(enquiryId).isPresent()) 
+		{
+			CibilDetails existingCibilDetails = cibilRepository.findById(cibilDTO.getCibilId()).get();
+						
+			if(cibilDTO.getCibilEligibility()!=null) 
+			{
+				existingCibilDetails.setCibilEligibility(cibilDTO.getCibilEligibility());
+			}
+			
+			if(cibilDTO.getCibilRemark()!=null) 
+			{
+				existingCibilDetails.setCibilRemark(cibilDTO.getCibilRemark());
+			}
+			
+			if(cibilDTO.getCibilScore()!=null) 
+			{
+				existingCibilDetails.setCibilScore(cibilDTO.getCibilScore());
+			}
+			
+			cibilRepository.save(existingCibilDetails);
+			return "!!!!....Updated SucessFully....!!!!";
+		}
+		
+		return null;
+	}
+	
 }
