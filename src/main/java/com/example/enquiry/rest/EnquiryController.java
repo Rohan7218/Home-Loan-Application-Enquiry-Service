@@ -51,7 +51,6 @@ public class EnquiryController
 		{
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 	
 	@GetMapping(value = "/{enquiryId}")

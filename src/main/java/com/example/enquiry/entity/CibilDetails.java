@@ -27,8 +27,8 @@ import lombok.NoArgsConstructor;
 public class CibilDetails 
 {
 	@Id
-	@SequenceGenerator(name = "cibilId", sequenceName = "cibilId", allocationSize = 1, initialValue =101)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cibilId")
+	@SequenceGenerator(name = "Enquiry_CibilId", sequenceName = "Enquiry_CibilId", allocationSize = 1, initialValue =101)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Enquiry_CibilId")
 	@Column(name = "Cibil_Id")
 	private Integer cibilId;
 	

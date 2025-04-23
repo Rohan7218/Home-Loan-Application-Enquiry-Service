@@ -69,6 +69,6 @@ public class EnquiryDetails {
 	private Boolean isPresent;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Cibil_Id")
+	@JoinColumn(name = "Enquiry_Cibil_Id")
 	private CibilDetails cibilId;
 }
