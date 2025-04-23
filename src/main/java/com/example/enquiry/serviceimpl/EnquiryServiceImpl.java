@@ -7,8 +7,10 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 
+import com.example.enquiry.config.ApiFeign;
 import com.example.enquiry.dto.EnquiryDTO;
 import com.example.enquiry.dto.EnquiryStatus;
 import com.example.enquiry.dto.EnquiryStatusDTO;
@@ -21,12 +23,16 @@ import com.example.enquiry.repository.EnquiryRepository;
 import com.example.enquiry.service.EnquiryService;
 
 @Service
-public class EnquiryServiceImpl implements EnquiryService {
+public class EnquiryServiceImpl implements EnquiryService 
+{
 	@Autowired
 	private EnquiryRepository enquiryRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private ApiFeign apiFeign;
 
 	@Override
 	public String registerEnquiry(EnquiryDTO enquiryDTO) {
@@ -49,12 +55,18 @@ public class EnquiryServiceImpl implements EnquiryService {
 	}
 
 	@Override
-	public String updateEnquiryStatus(EnquiryStatusDTO enquiryStatusDTO, Integer enquiryId) {
-		if (enquiryRepository.findById(enquiryId).isPresent()) {
+	public String updateEnquiryStatus(EnquiryStatusDTO enquiryStatusDTO, Integer enquiryId)
+	{
+		if (enquiryRepository.findById(enquiryId).isPresent())
+		{
 			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
 			enquiryDetails.setEnquiryStatus(enquiryStatusDTO.getEnquiryStatus());
 
-			enquiryRepository.save(enquiryDetails);
+			EnquiryDetails savedEnquiryDetails = enquiryRepository.save(enquiryDetails);
+			if(savedEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.APPROVED))
+			{
+				apiFeign.addCustomer(enquiryDetails);
+			}
 			return "!!!!....Enquiry Status Updated SuccessFully....!!!!";
 		}
 
