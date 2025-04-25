@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 
 import com.example.enquiry.config.ApiFeign;
