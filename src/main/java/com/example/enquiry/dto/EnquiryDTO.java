@@ -1,6 +1,5 @@
 package com.example.enquiry.dto;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,20 +13,24 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class EnquiryDTO 
-{
-		
+{	
 	@NotNull
 	@NotEmpty
 	@NotBlank(message = "Firstname is required")
-	@Size(min = 3, message = "Name must be at least 3 characters long")
+	@Size(min = 1, message = "Name must be at least 1 characters long")
 	private String firstName;
 	
 	@NotNull
 	@NotEmpty
+	@NotBlank(message = " Middlename is required")
+	@Size(min = 1, message = "Name must be at least 1 characters long")
+	private String middleName;
+	
+	@NotNull
+	@NotEmpty
 	@NotBlank(message = "Lastname is required")
-	@Size(min = 3, message = "Name must be at least 3 characters long")
+	@Size(min = 1, message = "Name must be at least 1 characters long")
 	private String lastName;
 
 	@Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Invalid email format")
