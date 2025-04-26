@@ -10,7 +10,7 @@ import com.example.enquiry.entity.EnquiryDetails;
 @FeignClient(name = "customer-service")
 public interface ApiFeign 
 {
-	@PostMapping(value = "/api/customer")
+	@PostMapping(value = "/api/customers")
 	public ResponseEntity<String> addCustomer(@RequestBody  EnquiryDetails enquiryDetails);
 	
 }
