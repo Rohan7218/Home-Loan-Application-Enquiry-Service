@@ -1,7 +1,6 @@
 package com.example.enquiry.serviceimpl;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -13,6 +12,7 @@ import com.example.enquiry.config.ApiFeign;
 import com.example.enquiry.dto.EnquiryDTO;
 import com.example.enquiry.dto.EnquiryStatus;
 import com.example.enquiry.dto.EnquiryStatusDTO;
+import com.example.enquiry.dto.EnquiryUpdateDTO;
 import com.example.enquiry.dto.GetEnquiryResponseDTO;
 import com.example.enquiry.entity.CibilDetails;
 import com.example.enquiry.entity.EnquiryDetails;
@@ -123,52 +123,52 @@ public class EnquiryServiceImpl implements EnquiryService
 	
 	
 	@Override
-	public String updateEnquiry(@Valid EnquiryDTO enquiryDTO, Integer enquiryId) {
-		
-		Optional<EnquiryDetails> optional = enquiryRepository.findById(enquiryId);
-		if (optional.isPresent()) {
-			EnquiryDetails getEnquiryDetails = optional.get();
+	public String updateEnquiry(@Valid EnquiryUpdateDTO enquiryUpdateDTO, Integer enquiryId)
+	{
+		if (enquiryRepository.findById(enquiryId).isPresent()) 
+		{
+			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
 			
+<<<<<<< HEAD
 			if(enquiryDTO.getFirstName()!=null && !enquiryDTO.getFirstName().isEmpty())
 				
+=======
+			if(enquiryUpdateDTO.getFirstName()!=null)
+>>>>>>> 08d01ddb9dc90d0abcf173f9d35966b7269391f6
 			{
-				getEnquiryDetails.setFirstName(enquiryDTO.getFirstName());
+				enquiryDetails.setFirstName(enquiryUpdateDTO.getFirstName());
 			}
-			if(enquiryDTO.getLastName()!=null)
+			if(enquiryUpdateDTO.getLastName()!=null)
 			{
-				getEnquiryDetails.setLastName(enquiryDTO.getLastName());
+				enquiryDetails.setLastName(enquiryUpdateDTO.getLastName());
 			}
-			if(enquiryDTO.getMiddleName()!=null)
+			if(enquiryUpdateDTO.getMiddleName()!=null)
 			{
-				getEnquiryDetails.setMiddleName(enquiryDTO.getMiddleName());
-			}
-			
-			if(enquiryDTO.getCityName()!=null)
-			{
-				getEnquiryDetails.setCityName(enquiryDTO.getCityName());
-			}
-			if(enquiryDTO.getContactNo()!=null)
-			{
-				getEnquiryDetails.setContactNo(Long.valueOf(enquiryDTO.getContactNo()));
-			}
-			if(enquiryDTO.getEmailId()!=null)
-			{
-				getEnquiryDetails.setEmailId(enquiryDTO.getEmailId());
+				enquiryDetails.setMiddleName(enquiryUpdateDTO.getMiddleName());
 			}
 			
-			if(enquiryDTO.getPanCardNo()!=null)
+			if(enquiryUpdateDTO.getCityName()!=null)
 			{
-				getEnquiryDetails.setPanCardNo(enquiryDTO.getPanCardNo());
+				enquiryDetails.setCityName(enquiryUpdateDTO.getCityName());
+			}
+			if(enquiryUpdateDTO.getContactNo()!=null)
+			{
+				enquiryDetails.setContactNo(Long.valueOf(enquiryUpdateDTO.getContactNo()));
+			}
+			if(enquiryUpdateDTO.getEmailId()!=null)
+			{
+				enquiryDetails.setEmailId(enquiryUpdateDTO.getEmailId());
+			}
+			
+			if(enquiryUpdateDTO.getPanCardNo()!=null)
+			{
+				enquiryDetails.setPanCardNo(enquiryUpdateDTO.getPanCardNo());
 			}
 
-			enquiryRepository.save(getEnquiryDetails);
+			enquiryRepository.save(enquiryDetails);
 			return "Enquiry Details Updated Succesfully";
 		}
-
-		else {
-			registerEnquiry(enquiryDTO);
-			return "Enquiry Id Record Not Found ..New Record Inserted";
-		}
+			return "Enquiry Not Found";
 		
 	}
 	

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.enquiry.dto.EnquiryDTO;
 import com.example.enquiry.dto.EnquiryStatus;
 import com.example.enquiry.dto.EnquiryStatusDTO;
+import com.example.enquiry.dto.EnquiryUpdateDTO;
 import com.example.enquiry.dto.GetEnquiryResponseDTO;
 import com.example.enquiry.entity.EnquiryDetails;
 import com.example.enquiry.service.EnquiryService;
@@ -97,9 +98,9 @@ public class EnquiryController
 	
 	
 	@PutMapping(value = "/edit-enquiry/{enquiryId}")
-	public ResponseEntity<String> updateEnquiry(@RequestBody @Valid EnquiryDTO enquiryDTO,@PathVariable Integer enquiryId)
+	public ResponseEntity<String> updateEnquiry(@RequestBody @Valid EnquiryUpdateDTO enquiryUpdateDTO,@PathVariable Integer enquiryId)
 	{
-			String msg=enquiryService.updateEnquiry(enquiryDTO,enquiryId);
+			String msg=enquiryService.updateEnquiry(enquiryUpdateDTO,enquiryId);
 				return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
 
