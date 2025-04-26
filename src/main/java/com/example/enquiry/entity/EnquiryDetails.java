@@ -39,6 +39,9 @@ public class EnquiryDetails {
 	@Column(name = "First_Name")
 	private String firstName;
 	
+	@Column(name = "Middle_Name")
+	private String middleName;
+	
 	@Column(name = "Last_Name")
 	private String lastName;
 
