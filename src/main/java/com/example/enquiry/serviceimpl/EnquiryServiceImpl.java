@@ -129,7 +129,8 @@ public class EnquiryServiceImpl implements EnquiryService
 		if (optional.isPresent()) {
 			EnquiryDetails getEnquiryDetails = optional.get();
 			
-			if(enquiryDTO.getFirstName()!=null && enquiryDTO.getFirstName()!="string")
+			if(enquiryDTO.getFirstName()!=null && !enquiryDTO.getFirstName().isEmpty())
+				
 			{
 				getEnquiryDetails.setFirstName(enquiryDTO.getFirstName());
 			}
