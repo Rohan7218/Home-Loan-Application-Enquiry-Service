@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import com.example.enquiry.dto.EnquiryDTO;
 import com.example.enquiry.dto.EnquiryStatus;
 import com.example.enquiry.dto.EnquiryStatusDTO;
+import com.example.enquiry.dto.EnquiryUpdateDTO;
 import com.example.enquiry.dto.GetEnquiryResponseDTO;
 import com.example.enquiry.entity.EnquiryDetails;
 
@@ -25,7 +26,7 @@ public interface EnquiryService
 
 	List<EnquiryDetails> getEnquiryByStatus(EnquiryStatus enquiryStatus);
 
-	String updateEnquiry(@Valid EnquiryDTO enquiryDTO, Integer enquiryId);
+	String updateEnquiry(@Valid EnquiryUpdateDTO enquiryUpdateDTO, Integer enquiryId);
 
 
 
