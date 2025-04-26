@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 
 import com.example.enquiry.config.ApiFeign;
@@ -130,7 +129,7 @@ public class EnquiryServiceImpl implements EnquiryService
 		if (optional.isPresent()) {
 			EnquiryDetails getEnquiryDetails = optional.get();
 			
-			if(enquiryDTO.getFirstName()!=null)
+			if(enquiryDTO.getFirstName()!=null && enquiryDTO.getFirstName()!="string")
 			{
 				getEnquiryDetails.setFirstName(enquiryDTO.getFirstName());
 			}
@@ -138,10 +137,24 @@ public class EnquiryServiceImpl implements EnquiryService
 			{
 				getEnquiryDetails.setLastName(enquiryDTO.getLastName());
 			}
+			if(enquiryDTO.getMiddleName()!=null)
+			{
+				getEnquiryDetails.setMiddleName(enquiryDTO.getMiddleName());
+			}
+			
 			if(enquiryDTO.getCityName()!=null)
 			{
 				getEnquiryDetails.setCityName(enquiryDTO.getCityName());
 			}
+			if(enquiryDTO.getContactNo()!=null)
+			{
+				getEnquiryDetails.setContactNo(Long.valueOf(enquiryDTO.getContactNo()));
+			}
+			if(enquiryDTO.getEmailId()!=null)
+			{
+				getEnquiryDetails.setEmailId(enquiryDTO.getEmailId());
+			}
+			
 			if(enquiryDTO.getPanCardNo()!=null)
 			{
 				getEnquiryDetails.setPanCardNo(enquiryDTO.getPanCardNo());
