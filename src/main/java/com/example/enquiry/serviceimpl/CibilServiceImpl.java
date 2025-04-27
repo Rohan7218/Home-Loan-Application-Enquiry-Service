@@ -32,18 +32,18 @@ public class CibilServiceImpl implements CibilService
 		CibilDetails cibilDetails1 = cibilRepository.findById(cibilDTO.getCibilId()).get();
 		if (cibilRepository.findById(cibilDTO.getCibilId()).isPresent()) 
 		{
-			LOGGER.info("CibilServiceImpl : addCibil : Entry");
+			LOGGER.debug("CibilServiceImpl : addCibil : Entry");
 			CibilDetails cibilDetails2 = modelMapper.map(cibilDTO, CibilDetails.class);
 							  cibilDetails2.setPanCardNo(cibilDetails1.getPanCardNo());
 							  cibilDetails2.setEnquiryId(cibilDetails1.getEnquiryId());
 	
 			cibilRepository.save(cibilDetails2);
-			LOGGER.info("CibilServiceImpl : addCibil : Exit");
+			LOGGER.debug("CibilServiceImpl : addCibil : Exit");
 			return "!!!!Cibil Score Added SuccessFully!!!!";
 		} 
 		else 
 		{
-			LOGGER.info("CibilServiceImpl : addCibil : Exit");
+			LOGGER.debug("CibilServiceImpl : addCibil : Exit");
 			return "!!!...Invalid Cibil Id...!!!";
 		}
 
@@ -54,7 +54,7 @@ public class CibilServiceImpl implements CibilService
 	{
 		if(enquiryRepository.findById(enquiryId).isPresent()) 
 		{
-			LOGGER.info("CibilServiceImpl : updateCibilDetails : Entry");
+			LOGGER.debug("CibilServiceImpl : updateCibilDetails : Entry");
 			CibilDetails existingCibilDetails = cibilRepository.findById(cibilDTO.getCibilId()).get();
 						
 			if(cibilDTO.getCibilEligibility()!=null) 
@@ -73,10 +73,10 @@ public class CibilServiceImpl implements CibilService
 			}
 			
 			cibilRepository.save(existingCibilDetails);
-			LOGGER.info("CibilServiceImpl : updateCibilDetails : Exit");
+			LOGGER.debug("CibilServiceImpl : updateCibilDetails : Exit");
 			return "!!!!....Updated SucessFully....!!!!";
 		}
-			LOGGER.info("CibilServiceImpl : updateCibilDetails : Exit");
+			LOGGER.debug("CibilServiceImpl : updateCibilDetails : Exit");
 			return null;
 	}
 	
