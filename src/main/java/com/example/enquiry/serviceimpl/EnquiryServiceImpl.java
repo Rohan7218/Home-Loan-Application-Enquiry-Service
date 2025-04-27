@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ import com.example.enquiry.service.EnquiryService;
 @Service
 public class EnquiryServiceImpl implements EnquiryService 
 {
+	private static final Logger LOGGER=LoggerFactory.getLogger(EnquiryServiceImpl.class);
+	
 	@Autowired
 	private EnquiryRepository enquiryRepository;
 
@@ -34,22 +38,27 @@ public class EnquiryServiceImpl implements EnquiryService
 	private ApiFeign apiFeign;
 
 	@Override
-	public String registerEnquiry(EnquiryDTO enquiryDTO) {
+	public String registerEnquiry(EnquiryDTO enquiryDTO)
+	{
+		LOGGER.info("EnquiryServiceImpl : registerEnquiry : Entry");
 		CibilDetails cibilDetails = new CibilDetails();
-		cibilDetails.setCibilEligibility("Inprocess");
-		cibilDetails.setCibilRemark("Inprocess");
-		cibilDetails.setCibilScore(0);
-		cibilDetails.setPanCardNo(enquiryDTO.getPanCardNo());
+						cibilDetails.setCibilEligibility("Inprocess");
+						cibilDetails.setCibilRemark("Inprocess");
+						cibilDetails.setCibilScore(0);
+						cibilDetails.setPanCardNo(enquiryDTO.getPanCardNo());
 
 		EnquiryDetails enquiryDetails = modelMapper.map(enquiryDTO, EnquiryDetails.class);
-		enquiryDetails.setContactNo(Long.valueOf(enquiryDTO.getContactNo()));
-		enquiryDetails.setEnquiryStatus(EnquiryStatus.REGISTERED);
-		enquiryDetails.setCibilId(cibilDetails);
-		enquiryDetails.setIsPresent(true);
+							enquiryDetails.setContactNo(Long.valueOf(enquiryDTO.getContactNo()));
+							enquiryDetails.setEnquiryStatus(EnquiryStatus.REGISTERED);
+							enquiryDetails.setCibilId(cibilDetails);
+							enquiryDetails.setIsPresent(true);
 
 		enquiryRepository.save(enquiryDetails);
 		cibilDetails.setEnquiryId(enquiryDetails.getEnquiryId());
 		enquiryRepository.save(enquiryDetails);
+		
+		LOGGER.info("EnquiryServiceImpl : registerEnquiry : Exit");
+		
 		return "!!!!....Enquiry Registered SuccessFully....!!!!";
 	}
 
@@ -58,14 +67,17 @@ public class EnquiryServiceImpl implements EnquiryService
 	{
 		if (enquiryRepository.findById(enquiryId).isPresent())
 		{
+			LOGGER.info("EnquiryServiceImpl : updateEnquiryStatus : Entry");
 			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
 			enquiryDetails.setEnquiryStatus(enquiryStatusDTO.getEnquiryStatus());
 
 			EnquiryDetails savedEnquiryDetails = enquiryRepository.save(enquiryDetails);
 			if(savedEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.APPROVED))
 			{
+				LOGGER.info("EnquiryServiceImpl : updateEnquiryStatus : Feign client : Entry");
 				apiFeign.addCustomer(enquiryDetails);
 			}
+			LOGGER.info("EnquiryServiceImpl : updateEnquiryStatus : Exit");
 			return "!!!!....Enquiry Status Updated SuccessFully....!!!!";
 		}
 
@@ -77,8 +89,10 @@ public class EnquiryServiceImpl implements EnquiryService
 	{
 		if(enquiryRepository.findById(enquiryId).isPresent())
 		{
+				LOGGER.info("EnquiryServiceImpl : getEnquiryById : Entry");
 				EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
 				GetEnquiryResponseDTO responseDTO = modelMapper.map(enquiryDetails, GetEnquiryResponseDTO.class);
+				LOGGER.info("EnquiryServiceImpl : getEnquiryById : Exit");
 				return responseDTO;
 		}
 		else
@@ -94,30 +108,40 @@ public class EnquiryServiceImpl implements EnquiryService
 		EnquiryDetails  getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
 		if(getEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED))
 		{
+			LOGGER.info("EnquiryServiceImpl : softDeleteEnquiry : Entry");
 				getEnquiryDetails.setIsPresent(false);
 				enquiryRepository.save(getEnquiryDetails);
+				LOGGER.info("EnquiryServiceImpl : softDeleteEnquiry : Exit");
 				return "!!!!....Record Deleted SuccessFully....!!!!";
 		}
+		LOGGER.info("EnquiryServiceImpl : softDeleteEnquiry : Exit");
 		return "!!!!....For Given Enquiry Id User Is Not Found....!!!!";
 	}
 
 	@Override
-	public List<EnquiryDetails> getAllEnquiries() {
+	public List<EnquiryDetails> getAllEnquiries() 
+	{
+		LOGGER.info("EnquiryServiceImpl : getAllEnquiries : Entry");
 		List<EnquiryDetails> enquiryList = enquiryRepository.findAllByIsPresent(true);
-
 		 if(!enquiryList.isEmpty())
 		 {
+			 LOGGER.info("EnquiryServiceImpl : getAllEnquiries : Exit");
 			 return enquiryList; 
 		 }
 		 else
 		 {
+			 LOGGER.info("EnquiryServiceImpl : getAllEnquiries : Exit");
 			 throw new NoEnquiriesFoundException("!!!!....No Enquiries Are Available....!!!!");
 		 }
+		 
 	}
 
 	@Override
-	public List<EnquiryDetails> getEnquiryByStatus(EnquiryStatus enquiryStatus) {
+	public List<EnquiryDetails> getEnquiryByStatus(EnquiryStatus enquiryStatus) 
+	{
+		LOGGER.info("EnquiryServiceImpl : getEnquiryByStatus : Entry");
 		List<EnquiryDetails> enquiryList = enquiryRepository.findAllByEnquiryStatus(enquiryStatus);
+		LOGGER.info("EnquiryServiceImpl : getEnquiryByStatus : Exit");
 		return enquiryList;
 	}
 	
@@ -127,6 +151,7 @@ public class EnquiryServiceImpl implements EnquiryService
 	{
 		if (enquiryRepository.findById(enquiryId).isPresent()) 
 		{
+			LOGGER.info("EnquiryServiceImpl : updateEnquiry : Entry");
 			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
 			
 <<<<<<< HEAD
@@ -166,8 +191,10 @@ public class EnquiryServiceImpl implements EnquiryService
 			}
 
 			enquiryRepository.save(enquiryDetails);
+			LOGGER.info("EnquiryServiceImpl : updateEnquiry : Exit");
 			return "Enquiry Details Updated Succesfully";
 		}
+			LOGGER.info("EnquiryServiceImpl : updateEnquiry : Exit");
 			return "Enquiry Not Found";
 		
 	}
