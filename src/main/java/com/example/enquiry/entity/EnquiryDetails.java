@@ -39,6 +39,9 @@ public class EnquiryDetails {
 	@Column(name = "First_Name")
 	private String firstName;
 	
+	@Column(name = "Middle_Name")
+	private String middleName;
+	
 	@Column(name = "Last_Name")
 	private String lastName;
 
@@ -63,12 +66,12 @@ public class EnquiryDetails {
 	private LocalDate updatedDate;
 
 	@Enumerated(EnumType.STRING)
-	private EnquiryStatus EnquiryStatus;
+	private EnquiryStatus enquiryStatus;
 	
 	@Column(name = "Is_Present")
 	private Boolean isPresent;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Cibil_Id")
+	@JoinColumn(name = "Enquiry_Cibil_Id")
 	private CibilDetails cibilId;
 }
