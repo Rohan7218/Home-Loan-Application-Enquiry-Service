@@ -127,14 +127,10 @@ public class EnquiryServiceImpl implements EnquiryService
 	{
 		if (enquiryRepository.findById(enquiryId).isPresent()) 
 		{
-			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
-			
-<<<<<<< HEAD
-			if(enquiryDTO.getFirstName()!=null && !enquiryDTO.getFirstName().isEmpty())
-				
-=======
+			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();		
+
 			if(enquiryUpdateDTO.getFirstName()!=null)
->>>>>>> 08d01ddb9dc90d0abcf173f9d35966b7269391f6
+
 			{
 				enquiryDetails.setFirstName(enquiryUpdateDTO.getFirstName());
 			}
