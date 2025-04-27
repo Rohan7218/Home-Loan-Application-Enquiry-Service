@@ -40,7 +40,7 @@ public class EnquiryServiceImpl implements EnquiryService
 	@Override
 	public String registerEnquiry(EnquiryDTO enquiryDTO)
 	{
-		LOGGER.info("EnquiryServiceImpl : registerEnquiry : Entry");
+		LOGGER.debug("EnquiryServiceImpl : registerEnquiry : Entry");
 		CibilDetails cibilDetails = new CibilDetails();
 						cibilDetails.setCibilEligibility("Inprocess");
 						cibilDetails.setCibilRemark("Inprocess");
@@ -57,7 +57,7 @@ public class EnquiryServiceImpl implements EnquiryService
 		cibilDetails.setEnquiryId(enquiryDetails.getEnquiryId());
 		enquiryRepository.save(enquiryDetails);
 		
-		LOGGER.info("EnquiryServiceImpl : registerEnquiry : Exit");
+		LOGGER.debug("EnquiryServiceImpl : registerEnquiry : Exit");
 		
 		return "!!!!....Enquiry Registered SuccessFully....!!!!";
 	}
@@ -67,17 +67,17 @@ public class EnquiryServiceImpl implements EnquiryService
 	{
 		if (enquiryRepository.findById(enquiryId).isPresent())
 		{
-			LOGGER.info("EnquiryServiceImpl : updateEnquiryStatus : Entry");
+			LOGGER.debug("EnquiryServiceImpl : updateEnquiryStatus : Entry");
 			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
 			enquiryDetails.setEnquiryStatus(enquiryStatusDTO.getEnquiryStatus());
 
 			EnquiryDetails savedEnquiryDetails = enquiryRepository.save(enquiryDetails);
 			if(savedEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.APPROVED))
 			{
-				LOGGER.info("EnquiryServiceImpl : updateEnquiryStatus : Feign client : Entry");
+				LOGGER.debug("EnquiryServiceImpl : updateEnquiryStatus : Feign client : Entry");
 				apiFeign.addCustomer(enquiryDetails);
 			}
-			LOGGER.info("EnquiryServiceImpl : updateEnquiryStatus : Exit");
+			LOGGER.debug("EnquiryServiceImpl : updateEnquiryStatus : Exit");
 			return "!!!!....Enquiry Status Updated SuccessFully....!!!!";
 		}
 
@@ -89,14 +89,15 @@ public class EnquiryServiceImpl implements EnquiryService
 	{
 		if(enquiryRepository.findById(enquiryId).isPresent())
 		{
-				LOGGER.info("EnquiryServiceImpl : getEnquiryById : Entry");
+				LOGGER.debug("EnquiryServiceImpl : getEnquiryById : Entry");
 				EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
 				GetEnquiryResponseDTO responseDTO = modelMapper.map(enquiryDetails, GetEnquiryResponseDTO.class);
-				LOGGER.info("EnquiryServiceImpl : getEnquiryById : Exit");
+				LOGGER.debug("EnquiryServiceImpl : getEnquiryById : Exit");
 				return responseDTO;
 		}
 		else
 		{
+			LOGGER.debug("EnquiryServiceImpl : getEnquiryById : Exit");
 			throw new NoEnquiryFoundException("!!!!....For Given Enquiry Id Record Not Found....!!!!");
 		}
 	}
@@ -108,29 +109,29 @@ public class EnquiryServiceImpl implements EnquiryService
 		EnquiryDetails  getEnquiryDetails = enquiryRepository.findById(enquiryId).get();
 		if(getEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED))
 		{
-			LOGGER.info("EnquiryServiceImpl : softDeleteEnquiry : Entry");
+			LOGGER.warn("EnquiryServiceImpl : softDeleteEnquiry : Entry");
 				getEnquiryDetails.setIsPresent(false);
 				enquiryRepository.save(getEnquiryDetails);
-				LOGGER.info("EnquiryServiceImpl : softDeleteEnquiry : Exit");
+				LOGGER.warn("EnquiryServiceImpl : softDeleteEnquiry : Exit");
 				return "!!!!....Record Deleted SuccessFully....!!!!";
 		}
-		LOGGER.info("EnquiryServiceImpl : softDeleteEnquiry : Exit");
+		LOGGER.warn("EnquiryServiceImpl : softDeleteEnquiry : Exit");
 		return "!!!!....For Given Enquiry Id User Is Not Found....!!!!";
 	}
 
 	@Override
 	public List<EnquiryDetails> getAllEnquiries() 
 	{
-		LOGGER.info("EnquiryServiceImpl : getAllEnquiries : Entry");
+		LOGGER.debug("EnquiryServiceImpl : getAllEnquiries : Entry");
 		List<EnquiryDetails> enquiryList = enquiryRepository.findAllByIsPresent(true);
 		 if(!enquiryList.isEmpty())
 		 {
-			 LOGGER.info("EnquiryServiceImpl : getAllEnquiries : Exit");
+			 LOGGER.debug("EnquiryServiceImpl : getAllEnquiries : Exit");
 			 return enquiryList; 
 		 }
 		 else
 		 {
-			 LOGGER.info("EnquiryServiceImpl : getAllEnquiries : Exit");
+			 LOGGER.debug("EnquiryServiceImpl : getAllEnquiries : Exit");
 			 throw new NoEnquiriesFoundException("!!!!....No Enquiries Are Available....!!!!");
 		 }
 		 
@@ -153,8 +154,10 @@ public class EnquiryServiceImpl implements EnquiryService
 		{
 			LOGGER.info("EnquiryServiceImpl : updateEnquiry : Entry");
 			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
-			
+				
+
 			if(enquiryUpdateDTO.getFirstName()!=null)
+
 			{
 				enquiryDetails.setFirstName(enquiryUpdateDTO.getFirstName());
 			}
