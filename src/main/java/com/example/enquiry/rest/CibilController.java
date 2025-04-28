@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.enquiry.dto.CibilDTO;
+import com.example.enquiry.response.ApiResponse;
 import com.example.enquiry.service.CibilService;
 
 @RestController
@@ -25,26 +26,28 @@ public class CibilController
 	private CibilService cibilService;
 	
 	@PostMapping
-	public ResponseEntity<String> addCibil(@RequestBody CibilDTO cibilDTO)
+	public ResponseEntity<ApiResponse<String>> addCibil(@RequestBody CibilDTO cibilDTO)
 	{
 		LOGGER.info("CibilController : PostMapping : addCibil : Entry");
 		String msg=cibilService.addCibil(cibilDTO);
 		LOGGER.info("CibilController : PostMapping : addCibil : Exit");
-		return new ResponseEntity<String>(msg, HttpStatus.CREATED);
+		ApiResponse<String> apiResponse=new ApiResponse<String>(msg);
+		return new ResponseEntity<ApiResponse<String>>(apiResponse, HttpStatus.CREATED);
 	}
 	
 	@PatchMapping(value = "/update-cibli/{enquiryId}")
-	public ResponseEntity<String> updateCibilDetails(@PathVariable Integer enquiryId , @RequestBody CibilDTO cibilDTO)
+	public ResponseEntity<ApiResponse<String>> updateCibilDetails(@PathVariable Integer enquiryId , @RequestBody CibilDTO cibilDTO)
 	{
 		LOGGER.info("CibilController : PatchMapping : updateCibilDetails : Entry");
 		String msg= cibilService.updateCibilDetails(enquiryId , cibilDTO);
 		if(msg!=null) 
 		{
 			LOGGER.info("CibilController : PatchMapping : updateCibilDetails : Exit");
-			return new ResponseEntity<String>(msg, HttpStatus.CREATED);
+			ApiResponse<String> apiResponse=new ApiResponse<String>(msg);
+			return new ResponseEntity<ApiResponse<String>>(apiResponse, HttpStatus.OK);		
 		}
 			LOGGER.info("CibilController : PatchMapping : updateCibilDetails : Exit");
-			return new ResponseEntity<String> (HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<ApiResponse<String>>(HttpStatus.NOT_FOUND);		
 	}	
 	
 	
