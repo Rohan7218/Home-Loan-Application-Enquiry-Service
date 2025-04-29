@@ -5,12 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.example.enquiry.entity.EnquiryDetails;
+import com.example.enquiry.dto.EnquiryMailDTO;
 
-@FeignClient(name = "customer-service")
-public interface ApiFeign
+@FeignClient(name = "mail-service")
+public interface MailApiFeignClient 
 {
-	@PostMapping(value = "/api/customers")
-	public ResponseEntity<String> addCustomer(@RequestBody  EnquiryDetails enquiryDetails);
-	
+	@PostMapping(value = "/api/mail/mails")
+	public ResponseEntity<String> registrationMail(@RequestBody EnquiryMailDTO enquiryMailDTO);
 }
