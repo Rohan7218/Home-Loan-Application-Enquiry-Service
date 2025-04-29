@@ -10,6 +10,6 @@ import com.example.enquiry.dto.EnquiryMailDTO;
 @FeignClient(name = "mail-service")
 public interface MailApiFeignClient 
 {
-	@PostMapping(value = "/api/mail/mails")
+	@PostMapping(value = "/api/enquiry/mails")
 	public ResponseEntity<String> registrationMail(@RequestBody EnquiryMailDTO enquiryMailDTO);
 }
