@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.enquiry.config.ApiFeign;
+import com.example.enquiry.config.MailApiFeignClient;
 import com.example.enquiry.dto.EnquiryDTO;
+import com.example.enquiry.dto.EnquiryMailDTO;
 import com.example.enquiry.dto.EnquiryStatus;
 import com.example.enquiry.dto.EnquiryStatusDTO;
 import com.example.enquiry.dto.EnquiryUpdateDTO;
 import com.example.enquiry.dto.GetEnquiryResponseDTO;
+import com.example.enquiry.dto.MailParameterDTO;
 import com.example.enquiry.entity.CibilDetails;
 import com.example.enquiry.entity.EnquiryDetails;
 import com.example.enquiry.exceptionhandling.NoEnquiriesFoundException;
@@ -36,11 +39,15 @@ public class EnquiryServiceImpl implements EnquiryService
 	
 	@Autowired
 	private ApiFeign apiFeign;
+	
+	@Autowired
+	private MailApiFeignClient mailApiFeignClient;
 
 	@Override
 	public String registerEnquiry(EnquiryDTO enquiryDTO)
 	{
 		LOGGER.debug("EnquiryServiceImpl : registerEnquiry : Entry");
+		
 		CibilDetails cibilDetails = new CibilDetails();
 						cibilDetails.setCibilEligibility("Inprocess");
 						cibilDetails.setCibilRemark("Inprocess");
@@ -56,6 +63,15 @@ public class EnquiryServiceImpl implements EnquiryService
 		enquiryRepository.save(enquiryDetails);
 		cibilDetails.setEnquiryId(enquiryDetails.getEnquiryId());
 		enquiryRepository.save(enquiryDetails);
+		
+		MailParameterDTO mailParameterDTO = modelMapper.map(enquiryDetails, MailParameterDTO.class);
+		
+		EnquiryMailDTO enquiryMailDTO=new EnquiryMailDTO();
+								  enquiryMailDTO.setTo(enquiryDetails.getEmailId());
+								  enquiryMailDTO.setFileName("RegistrationMailFormat.txt");
+								  enquiryMailDTO.setSubject("Registration Successful - Unified Home Loan Pvt Ltd Home Loan Application");
+								  enquiryMailDTO.setMailParameterDTO(mailParameterDTO);
+		mailApiFeignClient.registrationMail(enquiryMailDTO);
 		
 		LOGGER.debug("EnquiryServiceImpl : registerEnquiry : Exit");
 		
