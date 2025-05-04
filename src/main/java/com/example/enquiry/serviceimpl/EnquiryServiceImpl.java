@@ -156,9 +156,9 @@ public class EnquiryServiceImpl implements EnquiryService
 	@Override
 	public List<EnquiryDetails> getEnquiryByStatus(EnquiryStatus enquiryStatus) 
 	{
-		LOGGER.info("EnquiryServiceImpl : getEnquiryByStatus : Entry");
+		LOGGER.debug("EnquiryServiceImpl : getEnquiryByStatus : Entry");
 		List<EnquiryDetails> enquiryList = enquiryRepository.findAllByEnquiryStatus(enquiryStatus);
-		LOGGER.info("EnquiryServiceImpl : getEnquiryByStatus : Exit");
+		LOGGER.debug("EnquiryServiceImpl : getEnquiryByStatus : Exit");
 		return enquiryList;
 	}
 	
@@ -168,7 +168,7 @@ public class EnquiryServiceImpl implements EnquiryService
 	{
 		if (enquiryRepository.findById(enquiryId).isPresent()) 
 		{
-			LOGGER.info("EnquiryServiceImpl : updateEnquiry : Entry");
+			LOGGER.debug("EnquiryServiceImpl : updateEnquiry : Entry");
 			EnquiryDetails enquiryDetails = enquiryRepository.findById(enquiryId).get();
 				
 
@@ -205,10 +205,10 @@ public class EnquiryServiceImpl implements EnquiryService
 			}
 
 			enquiryRepository.save(enquiryDetails);
-			LOGGER.info("EnquiryServiceImpl : updateEnquiry : Exit");
+			LOGGER.debug("EnquiryServiceImpl : updateEnquiry : Exit");
 			return "Enquiry Details Updated Succesfully";
 		}
-			LOGGER.info("EnquiryServiceImpl : updateEnquiry : Exit");
+			LOGGER.debug("EnquiryServiceImpl : updateEnquiry : Exit");
 			return "Enquiry Not Found";
 		
 	}
