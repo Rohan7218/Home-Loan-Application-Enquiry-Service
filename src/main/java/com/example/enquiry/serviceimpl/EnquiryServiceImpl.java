@@ -42,6 +42,7 @@ public class EnquiryServiceImpl implements EnquiryService
 	
 	@Autowired
 	private MailApiFeignClient mailApiFeignClient;
+	
 
 	@Override
 	public String registerEnquiry(EnquiryDTO enquiryDTO)
@@ -92,6 +93,21 @@ public class EnquiryServiceImpl implements EnquiryService
 			{
 				LOGGER.debug("EnquiryServiceImpl : updateEnquiryStatus : Feign client : Entry");
 				apiFeign.addCustomer(enquiryDetails);
+			}
+			
+			if(savedEnquiryDetails.getEnquiryStatus().equals(EnquiryStatus.REJECTED))
+			{
+				LOGGER.debug("EnquiryServiceImpl : updateEnquiryStatus : Feign client : Entry");
+				
+				MailParameterDTO mailParameterDTO = modelMapper.map(savedEnquiryDetails, MailParameterDTO.class);
+				
+				EnquiryMailDTO enquiryMailDTO=new EnquiryMailDTO();
+										  enquiryMailDTO.setTo(savedEnquiryDetails.getEmailId());
+										  enquiryMailDTO.setSubject("You Are Not Eligible to Proceed with Your Home Loan – Unified Home Loan Pvt Ltd");
+										  enquiryMailDTO.setFileName("RejectionCustomerMail.txt");
+										  enquiryMailDTO.setMailParameterDTO(mailParameterDTO);
+			
+				 mailApiFeignClient.customerRejectionMail(enquiryMailDTO);
 			}
 			LOGGER.debug("EnquiryServiceImpl : updateEnquiryStatus : Exit");
 			return "!!!!....Enquiry Status Updated SuccessFully....!!!!";
