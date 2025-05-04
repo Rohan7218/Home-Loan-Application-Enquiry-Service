@@ -72,6 +72,7 @@ public class EnquiryServiceImpl implements EnquiryService
 								  enquiryMailDTO.setFileName("RegistrationMailFormat.txt");
 								  enquiryMailDTO.setSubject("Registration Successful - Unified Home Loan Pvt Ltd Home Loan Application");
 								  enquiryMailDTO.setMailParameterDTO(mailParameterDTO);
+								  
 		mailApiFeignClient.registrationMail(enquiryMailDTO);
 		
 		LOGGER.debug("EnquiryServiceImpl : registerEnquiry : Exit");
