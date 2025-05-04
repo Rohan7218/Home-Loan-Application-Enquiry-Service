@@ -12,4 +12,7 @@ public interface MailApiFeignClient
 {
 	@PostMapping(value = "/api/enquiry/mails")
 	public ResponseEntity<String> registrationMail(@RequestBody EnquiryMailDTO enquiryMailDTO);
+	
+	@PostMapping(value = "/api/customers/rejections")
+	public ResponseEntity<String> customerRejectionMail(@RequestBody EnquiryMailDTO enquiryMailDTO);
 }
