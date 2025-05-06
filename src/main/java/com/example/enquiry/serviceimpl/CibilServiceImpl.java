@@ -36,7 +36,6 @@ public class CibilServiceImpl implements CibilService
 			CibilDetails cibilDetails2 = modelMapper.map(cibilDTO, CibilDetails.class);
 							  cibilDetails2.setPanCardNo(cibilDetails1.getPanCardNo());
 							  cibilDetails2.setEnquiryId(cibilDetails1.getEnquiryId());
-	
 			cibilRepository.save(cibilDetails2);
 			LOGGER.debug("CibilServiceImpl : addCibil : Exit");
 			return "!!!!Cibil Score Added SuccessFully!!!!";
